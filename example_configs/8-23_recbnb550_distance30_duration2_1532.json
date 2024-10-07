@@ -1,0 +1,27 @@
+{
+    "coordinates":
+        [{"lon": 7.47, "lat": 53.94, "num_particles": 9999, "seed_radius": 600},
+        {"lon": 7.330483, "lat": 53.98, "num_particles": 9999, "seed_radius": 600}]
+    ,
+    "time":"2024-8-23-20:00",
+    "settings":{
+        "simulation_duration_hours": 2,
+        "simulation_interval_minutes": 1
+    },
+    "grid_settings": {
+        "tile_size_km": 0.1,
+        "grid_size_km": 250,
+        "grid_center": [53.925052, 7.192578]
+    },
+    "agent": {
+        "type": "recbnb",
+        "agent_settings": {
+        	"initial_position": [53.722827, 7.192965],
+        	"uav_time_steps": 3300,
+        	"rectangle_containment_percentage": 0.75,
+            "heuristic": "vicinity_observation",
+        	"vicinity_weight": 1e-1,
+        	"local_uav_time_steps": 550
+        }
+    }
+}
