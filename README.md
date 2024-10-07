@@ -18,9 +18,12 @@ To run a simulation, one can call ```python3 run_drone_simulation.py``` with one
 | Argument        | Description                             |
 |-----------------|-----------------------------------------|
 | `--config_file`  | File containing most configurations.               |
-| `log_file_name`| Name of file for saving all the logs and stats.       |
+| `--log_file_name`| Name of file for saving all the logs and stats.       |
 | `--no_plot`| If 0, a plot-like video file of the drone's trajectory will be created. If 1, it does not plot at all. Defaults to 0.          |
 | `--verbose`     | Enables verbose logging                 |
+
+For example, a valid command could look like this:<br>
+```python3 run_drone_simulation.py --config ./example_configs/example01.txt --log_file_name test_run --no_plot 1```
 
 
 
