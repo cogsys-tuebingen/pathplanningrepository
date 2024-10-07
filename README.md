@@ -12,6 +12,15 @@ In this readme, we will provide basic instructions on how to install the reposit
 	```git clone https://github.com/OpenDrift/opendrift.git && cd opendrift```<br>
 	Follow [their installation instructions](https://opendrift.github.io/install.html).
 
-## How to Run
+
+## Command Line Examples
+To run a simulation, one can call ```python3 run_drone_simulation.py``` with one of the following arguments:
+| Argument        | Description                             |
+|-----------------|-----------------------------------------|
+| `--config_file`  | File containing most configurations.               |
+| `log_file_name`| Name of file for saving all the logs and stats.       |
+| `--no_plot`| If 0, a plot-like video file of the drone's trajectory will be created. If 1, it does not plot at all. Defaults to 0.          |
+| `--verbose`     | Enables verbose logging                 |
+
 
 
