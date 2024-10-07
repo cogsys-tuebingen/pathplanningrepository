@@ -26,7 +26,8 @@ For example, a valid command could look like this:<br>
 ```python3 run_drone_simulation.py --config ./example_configs/example01.txt --log_file_name test_run --no_plot 1```
 
 Example files for the configurations are given in the directory ```./example_configs```.
-It should be noted, that all relevant locations (```initial_position```, each of the search targets, and so on) should be wide within the grid to not run into bugs.
-
-
-
+Please note, that all relevant locations (```initial_position```, each of the search targets, and so on) should be wide within the grid to not run into bugs. Please note, that if you run into the error 
+```
+ValueError: Simulation stopped within first timestep. "Missing variables: ['x_sea_water_velocity', 'y_sea_water_velocity']", 'The simulation stopped before requested end time was reached.'
+```
+Possible values for 'type' (under 'agent') are 'recbnb', 'spiral', and 'rectangle', resulting in the three types described in the paper.
