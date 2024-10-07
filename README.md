@@ -6,7 +6,9 @@ These simulations generate search targets at predefined (by the user) locations 
 In this readme, we will provide basic instructions on how to install the repository and give basic examples on how to run it.
 
 # Install
-1. Clone the repostitory:
-	```git clone github.com/cogsys-tuebingen/pathplanningrepository && cd pathplanningrepository```
-2. Install OpenDrift:
+1. Clone the repostitory:<br>
+	```git clone https://github.com/cogsys-tuebingen/pathplanningrepository && cd pathplanningrepository```
+2. Install OpenDrift:<br>
+	```git clone https://github.com/OpenDrift/opendrift.git && cd opendrift```
+	Follow [their installation instructions](https://opendrift.github.io/install.html).
 
