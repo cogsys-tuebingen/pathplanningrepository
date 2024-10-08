@@ -3,7 +3,7 @@
         [{"lon": 7.47, "lat": 53.94, "num_particles": 9999, "seed_radius": 600},
         {"lon": 7.330483, "lat": 53.98, "num_particles": 9999, "seed_radius": 600}]
     ,
-    "time":"2024-8-23-20:00",
+    "time":"2024-10-07-20:00",
     "settings":{
         "simulation_duration_hours": 2,
         "simulation_interval_minutes": 1
