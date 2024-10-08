@@ -28,6 +28,9 @@ To run a simulation, call ```python3 run_drone_simulation.py``` with one of the 
 For example, a valid command looks like this:<br>
 ```python3 run_drone_simulation.py --config ./example_configs/8-23_recbnb550_distance30_duration2_1532.json --log_file_name test_run --no_plot 1```
 
+After running multiple simulations, there are multiple log files, denoting how the UAV performed in finding the target. To evaluate these, you can run:<br>
+```python3 utils/config_parser.py PATH_TO_LOGFILES```
+
 Example files for the configurations are given in the directory ```./example_configs```.
 Possible values for 'type' (under 'agent') are 'recbnb', 'spiral', and 'rectangle', resulting in the three types described in the paper. Under the current configurations, one hour in real time is 648 time steps in simulation (The UAV is simulated at a speed of 18 meters per second).
 
