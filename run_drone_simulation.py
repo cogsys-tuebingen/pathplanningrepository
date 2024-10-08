@@ -20,7 +20,6 @@ from utils.stats import make_stats_from_observation, write_stats_to_file
 
 
 def parse_args():
-    # TODO: Argument Parser
     parser = argparse.ArgumentParser("Call \'python3 run_drone_simulation.py\' with one of below arguments.")
 
     # maybe make required later.
@@ -41,52 +40,13 @@ def parse_args():
 
 
 def run_simulation(opt):
-    # TODO: run LeeWay simulation
-
     # loglevel = 20 means no debugging info, loglevel = 0 is the other extreme.
     o = Leeway(loglevel=20)
     o.add_readers_from_list([#'https://thredds.met.no/thredds/dodsC/sea/norkyst800m/1h/aggregate_be',
                              'https://tds.hycom.org/thredds/dodsC/GLBy0.08/latest',
                              'https://pae-paha.pacioos.hawaii.edu/thredds/dodsC/ncep_global/NCEP_Global_Atmospheric_Model_best.ncd'])
 
-    #o.add_readers_from_list([# replaces hawaii:
-    #                         './resources/wind/ncep_global_NCEP_Global_Atmospheric_Model_best.nc',])
-    #                         # the rest replaces hycom:
-    #    './resources/water_current/hycom_glby_930_2023052712_t000_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t003_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t006_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t009_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t012_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t015_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t018_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t021_ssh.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t000_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t000_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t003_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t003_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t006_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t006_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t009_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t009_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t012_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t012_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t015_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t015_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t018_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t018_uv3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t021_ts3z.nc',
-    #                    './resources/water_current/hycom_glby_930_2023052712_t021_uv3z.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t000_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t003_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t006_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t009_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t012_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t015_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t018_ice.nc',
-    #                    './resources/water_current/hycom_GLBy0.08_930_2023052712_t021_ice.nc'])
-    
     # 26 is a Life-raft without ballast.
-    # TODO experiment with other object types.
     object_type = 26
 
     num_particles = opt.file_config['coordinates'][0].get('num_particles')
@@ -102,7 +62,6 @@ def run_simulation(opt):
 
         if radius is None:
             radius = 1000
-        # what unit does the radius carry?
 
 
         # first, seed the super particle:
@@ -125,7 +84,6 @@ def run_simulation(opt):
     d = opt.file_config['settings']
     duration, time_step = d['simulation_duration_hours'], d['simulation_interval_minutes']
 
-    # TODO: synchronize args.uav_time_steps and number of time steps in simulation
     o.run(duration=timedelta(hours=duration),
           time_step=timedelta(minutes=time_step),
           time_step_output=timedelta(minutes=time_step))
@@ -144,9 +102,6 @@ def run_simulation(opt):
 
 
 def move(uav, s):
-    # TODO
-    # this method should move the UAV according to some motion law (no too sudden changes in velocity vector)
-    # it can, if the uav_pos is expressed in terms of lat and lon, use a transformation of coordinates like proj4. (would add more realism, aka sell well)
     return uav
 
 def get_super_particles(h,cutoff,t):
@@ -163,27 +118,18 @@ if __name__ == '__main__':
 
     o, history = run_simulation(args)
 
-    #grid_center = {'lat': 53.925052, 'lon': 7.192578} #TODO
     grid_center = (53.925052, 7.192578)
-    #uav_pos = {'lat': 53.72328, 'lon': 7.20801}  # weisse duene
-    #uav_pos = {'': 53.705, '2': 7.173387}
-    #uav_pos = np.array(list(uav_pos.values()))
     grid_center = args.file_config['grid_settings']['grid_center']
 
     tile_size_km, grid_size_km = args.file_config['grid_settings']['tile_size_km'], args.file_config['grid_settings']['grid_size_km']  # standard: 0.1 and 25
 
     grid = generate_grid(grid_center, tile_size_km=tile_size_km, grid_size_km=grid_size_km)
     
-    # this one is a grid point (center of a tile)
-    #uav_pos = np.array([53.70456964, 7.17367951])
-    #uav_pos = get_center_of_tile(uav_pos, grid)
     uav_time_steps = args.file_config['agent']['agent_settings']['uav_time_steps']
 
 
     adj_uav_time_steps = get_adjusted_uav_time_steps(uav_time_steps, file_config=args.file_config)
 
-
-    #adj_uav_time_steps = 200
 
 
     if adj_uav_time_steps < uav_time_steps:
@@ -193,22 +139,10 @@ if __name__ == '__main__':
 
     s = time.time()
     history.adjust_particles(uav_time_steps)
-    #print(f'adjusting took {time.time() - s} seconds ...')
 
 
-    #agent = SpiralAgent(initial_position=uav_pos, **args.__dict__)
-    #agent = BranchAndBoundAgent(initial_position=uav_pos,
-    #                            grid=grid,
-    #                            history=history,
-    #                            uav_time_steps=args.uav_time_steps)
     agent_type = args.file_config['agent']['type']
     
-
-    """
-    TEMP
-    """
-    #if agent_type in ['recbnb', 'rec_bnb']:
-    #    sys.exit(1)
 
 
     agent_settings = args.file_config['agent']['agent_settings']
@@ -222,8 +156,6 @@ if __name__ == '__main__':
 
     uav_pos = agent.initial_position
     for k in range(uav_time_steps-1):
-    #for k in range(200):
-        #t = get_simulation_time(k, args.file_config['settings']['simulation_interval_minutes'], tile_size_km)
         t = k
         
         observation = history._get_observation(tile=get_contours_of_tile(uav_pos, grid), t=t, grid=grid)
@@ -235,7 +167,6 @@ if __name__ == '__main__':
                 print(f'Node equal to Grandparent:\n{uav_pos}')
 
         if args.log_file_name:
-            # TODO: why doesn't history.particles work?
             stats[k], found_sps = make_stats_from_observation(observation, uav_pos_node, history.particles[k], state=stats)
             if found_sps:
                 for idx in found_sps:
@@ -274,5 +205,4 @@ if __name__ == '__main__':
 
     #o.animation(filename='/tmp/test_animation.mp4', fast=True, background=['x_sea_water_velocity', 'y_sea_water_velocity'])
 
-    # TODO: plotting and logging
 
