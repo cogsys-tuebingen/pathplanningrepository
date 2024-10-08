@@ -34,4 +34,6 @@ Please note, that all relevant locations (e.g. ```initial_position```, each of t
 ValueError: Simulation stopped within first timestep. "Missing variables: ['x_sea_water_velocity', 'y_sea_water_velocity']", 'The simulation stopped before requested end time was reached.'
 ```
 Then, most probably, the configuration contains a date, time, or location for which weather data is unavailable.
+
+
 Possible values for 'type' (under 'agent') are 'recbnb', 'spiral', and 'rectangle', resulting in the three types described in the paper. Under the current configurations, one hour in real time is 648 time steps in simulation (The UAV is simulated at a speed of 18 meters per second).
