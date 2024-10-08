@@ -10,7 +10,9 @@ In this readme, we will provide basic instructions on how to install the reposit
 	```git clone https://github.com/cogsys-tuebingen/pathplanningrepository && cd pathplanningrepository```
 2. Install OpenDrift:<br>
 	```git clone https://github.com/OpenDrift/opendrift.git && cd opendrift```<br>
-	Follow [their installation instructions](https://opendrift.github.io/install.html).<br>
+	Follow [their installation instructions](https://opendrift.github.io/install.html).
+	
+<br>
 The dependencies required by OpenDrift include all necessary packages for this repository.
 
 
