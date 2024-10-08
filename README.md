@@ -17,7 +17,7 @@ The dependencies required by OpenDrift include all necessary packages for this r
 
 
 ## Command Line Examples
-To run a simulation, one can call ```python3 run_drone_simulation.py``` with one of the following arguments:
+To run a simulation, call ```python3 run_drone_simulation.py``` with one of the following arguments:
 | Argument        | Description                             |
 |-----------------|-----------------------------------------|
 | `--config_file`  | File containing most configurations.               |
@@ -25,7 +25,7 @@ To run a simulation, one can call ```python3 run_drone_simulation.py``` with one
 | `--no_plot`| If 0, a plot-like video file of the drone's trajectory will be created. If 1, it does not plot at all. Defaults to 0.          |
 | `--verbose`     | Enables verbose logging                 |
 
-For example, a valid command could look like this:<br>
+For example, a valid command looks like this:<br>
 ```python3 run_drone_simulation.py --config ./example_configs/example01.txt --log_file_name test_run --no_plot 1```
 
 Example files for the configurations are given in the directory ```./example_configs```.
