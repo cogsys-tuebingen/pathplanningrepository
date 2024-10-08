@@ -31,7 +31,7 @@ For example, a valid command looks like this:<br>
 Example files for the configurations are given in the directory ```./example_configs```.
 Possible values for 'type' (under 'agent') are 'recbnb', 'spiral', and 'rectangle', resulting in the three types described in the paper. Under the current configurations, one hour in real time is 648 time steps in simulation (The UAV is simulated at a speed of 18 meters per second).
 
-Please note, that all relevant locations (e.g. ```initial_position```, each of the search targets) should be wide within the grid to not run into bugs. Please note, that if you run into this error:
+Please note, that all relevant locations (e.g. ```initial_position```, each of the search targets) have to be within the grid to avoid bugs. Please note, that if you run into this error:
 ```
 ValueError: Simulation stopped within first timestep. "Missing variables: ['x_sea_water_velocity', 'y_sea_water_velocity']", 'The simulation stopped before requested end time was reached.'
 ```
