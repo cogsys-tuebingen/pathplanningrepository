@@ -42,8 +42,8 @@ def parse_args():
 def run_simulation(opt):
     # loglevel = 20 means no debugging info, loglevel = 0 is the other extreme.
     o = Leeway(loglevel=20)
-    o.add_readers_from_list([#'https://thredds.met.no/thredds/dodsC/sea/norkyst800m/1h/aggregate_be',
-                             'https://tds.hycom.org/thredds/dodsC/GLBy0.08/latest',
+    # these readers get discontinued too often; check out the issues in opendrift repository to find some that work currently.
+    o.add_readers_from_list(['https://tds.hycom.org/thredds/dodsC/FMRC_ESPC-D-V02_uv3z/FMRC_ESPC-D-V02_uv3z_best.ncd',
                              'https://pae-paha.pacioos.hawaii.edu/thredds/dodsC/ncep_global/NCEP_Global_Atmospheric_Model_best.ncd'])
 
     # 26 is a Life-raft without ballast.
