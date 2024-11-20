@@ -23,5 +23,8 @@
         	"vicinity_weight": 1e-1,
         	"local_uav_time_steps": 550
         }
+    },
+    "plot_settings": {
+        "plot_position": "first_particle_encounter"
     }
 }

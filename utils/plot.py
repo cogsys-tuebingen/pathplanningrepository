@@ -7,7 +7,7 @@ import datetime
 import math
 
 from pyproj.transformer import TransformerUnsafe
-from utils.random_crap import get_simulation_time
+from utils.random_crap import get_simulation_time, meter_distance_from_latlon
 
 # Function to create a matplotlib plot (replace this with your custom plot)
 def create_plot(frame_number):
@@ -97,11 +97,26 @@ def _detect_position_at_first_moment_of_detection(p):
         return p[0, 0, 1:3]
 
     return sup[min_discovered_time, min_idx, 1:3]
+
+
+def _detect_position_at_first_particle_encounter(p):
+    """
+    p: array of particles as we usually have it here, INCLUDING the time dimension.
+    detects the first time a superparticle is detected and returns the position at which this happens.
+    if that never happens, it returns the initial position of one of the superparticles.
+    """
+    is_discovered = p[:, :, 3]
+
+    discovered_list = [np.any(is_discovered[k, :]) for k in range(is_discovered.shape[0])]
+    discovered_time = discovered_list.index(True)
+    discovered_idx = (is_discovered[discovered_time] == 1).nonzero()[0][0]
+
+    return p[discovered_time, discovered_idx, 1:3], discovered_time
     
 
 
 
-def _wrapper(coordinates, uav_position_nodes=None, fps=10, plot_position=None, **kwargs):
+def _wrapper(coordinates, uav_position_nodes=None, fps=10, **kwargs):
     #lat_min, lat_max = np.min(coordinates[:, :, 1]), np.max(coordinates[:, :, 1])
     #lon_min, lon_max = np.min(coordinates[:, :, 2]), np.max(coordinates[:, :, 2])
     coordinates[np.isnan(coordinates)] = 300
@@ -141,7 +156,26 @@ def _wrapper(coordinates, uav_position_nodes=None, fps=10, plot_position=None, *
     _stripped_particles = _strip_array(coordinates)
 
 
-    if plot_position is None:
+    plot_settings = kwargs.get('plot_settings', dict())
+    # Default is the position of the first time a superparticle is found.
+    plot_position = plot_settings.get('plot_position', None)
+
+    if plot_position == 'first_particle_encounter':
+        plot_position, discovered_time= _detect_position_at_first_particle_encounter(coordinates)
+        # use one super particle as example to determine distance; assert it's actually a superparticle
+        assert coordinates[0, 0, 0] == coordinates[0, 0, 4]
+        dist = meter_distance_from_latlon(np.array(kwargs['agent']['agent_settings']['initial_position']),
+                                          np.array(coordinates[0, 0, 1:3]))
+        print(f'distance while plottin: {dist} meters ...')
+        if 9000 < dist < 11000:
+            time_offset = 80
+        elif 19000 < dist < 21000:
+            time_offset = 90
+        elif 4000 < dist < 6000:
+            time_offset = 75
+
+        plot_position = np_uav_positions[discovered_time+time_offset]
+    elif not plot_position or plot_position == 'first_superparticle_found':
         plot_position = _detect_position_at_first_moment_of_detection(coordinates)
 
     """
@@ -284,6 +318,9 @@ def _wrapper(coordinates, uav_position_nodes=None, fps=10, plot_position=None, *
         # plot discovered particles:
         l = []
         _l_colours = []
+
+####################################
+# all info plotting:
         l.append('{:.4f}, {:.4f}, t={}'.format(uav_position_nodes[uav_idx].position[0], uav_position_nodes[uav_idx].position[1], _get_human_time(uav_position_nodes[uav_idx].time)))
         _l_colours.append('black')
         for info in uav_position_nodes[uav_idx].particle_info[:, :2]:
@@ -295,7 +332,10 @@ def _wrapper(coordinates, uav_position_nodes=None, fps=10, plot_position=None, *
             discovered = sp[:, 3] == 1
             _l_colours.append('gray' if discovered else 'black')
 
-        #l.append('{:.4f}, {:.4f}, t={}'.format(uav_position_nodes[uav_idx].position[0], uav_position_nodes[uav_idx].position[1], uav_position_nodes[uav_idx].time))
+###################################
+
+
+        #l.append('t={}'.format(_get_human_time(uav_position_nodes[uav_idx].time)))
 
         l = ax.legend(l)
 
@@ -448,9 +488,12 @@ def create_animation(output_video_filename, coordinates, uav_position_nodes, fps
     """TEMP"""
     #num_frames = min(num_frames, 450)
     """TEMP"""
+    # plot_trajectory needs is expected to be 1 or 0.
+    plot_trajectory = kwargs.pop('plot_trajectory', True)
+    plot_trajectory = bool(plot_trajectory)
 
     # Create the animation
-    wrapper = _wrapper(coordinates, uav_position_nodes, fps, simulation_interval_minutes=kwargs['settings']['simulation_interval_minutes'], tile_size_km=kwargs['grid_settings']['tile_size_km'], plot_trajectory=True, plot_position=None, **kwargs)
+    wrapper = _wrapper(coordinates, uav_position_nodes, fps, simulation_interval_minutes=kwargs['settings']['simulation_interval_minutes'], tile_size_km=kwargs['grid_settings']['tile_size_km'], plot_trajectory=plot_trajectory, **kwargs)
     animation = FuncAnimation(plt.figure(), wrapper, frames=num_frames, interval=1000 // fps)
 
     # Save the animation as a video
