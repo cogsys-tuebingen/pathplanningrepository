@@ -173,6 +173,8 @@ def _wrapper(coordinates, uav_position_nodes=None, fps=10, **kwargs):
             time_offset = 90
         elif 4000 < dist < 6000:
             time_offset = 75
+        elif 28000 < dist < 32000:
+            time_offset = 90
 
         plot_position = np_uav_positions[discovered_time+time_offset]
     elif not plot_position or plot_position == 'first_superparticle_found':
