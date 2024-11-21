@@ -59,9 +59,10 @@ def _strip_array(arr):
 """
 it's simulation time, not human time
 """
-def _get_human_time(t):
+def _get_human_time(t, __strech=1):
     global fps_factor
     one_hour = fps_factor * 647
+    t *= __strech
     h = int(t / one_hour)
     m = int(((t % one_hour) / one_hour) * 60)
     m = f'0{m}' if m < 10 else str(m)
@@ -323,7 +324,7 @@ def _wrapper(coordinates, uav_position_nodes=None, fps=10, **kwargs):
 
 ####################################
 # all info plotting:
-        l.append('{:.4f}, {:.4f}, t={}'.format(uav_position_nodes[uav_idx].position[0], uav_position_nodes[uav_idx].position[1], _get_human_time(uav_position_nodes[uav_idx].time)))
+        l.append('{:.4f}, {:.4f}, t={}'.format(uav_position_nodes[uav_idx].position[0], uav_position_nodes[uav_idx].position[1], _get_human_time(uav_position_nodes[uav_idx].time, stretch_factor)))
         _l_colours.append('black')
         for info in uav_position_nodes[uav_idx].particle_info[:, :2]:
             idsp, num_disc = info.astype(np.int32)
@@ -337,7 +338,7 @@ def _wrapper(coordinates, uav_position_nodes=None, fps=10, **kwargs):
 ###################################
 
 
-        #l.append('t={}'.format(_get_human_time(uav_position_nodes[uav_idx].time)))
+        #l.append('t={}'.format(_get_human_time(uav_position_nodes[uav_idx].time, stretch_factor)))
 
         l = ax.legend(l)
 
